@@ -19,5 +19,19 @@ router.get('/selection/:type/:genre', (req, res) => {
     })
 })
 
+router.get('/keyword/:word', (req, res) => {
+    fetch(`https://api.themoviedb.org/3/search/keyword?api_key=${apiKey}&query=${req.params.word}`)
+    .then(res => res.json())
+    .then((data) => {
+        res.json({result : data})
+    })
+})
+
+
+// Get Movie Provider : https://api.themoviedb.org/3/movie/{MOVIE_ID}/watch/providers?api_key=
+//img path : https://image.tmdb.org/t/p/original/{PATH}
+// img path with width / INFO ->  https://www.themoviedb.org/talk/5aeaaf56c3a3682ddf0010de?language=fr-FR
+
+
 
 module.exports = router;
