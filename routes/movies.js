@@ -26,7 +26,6 @@ router.get("/selection/:type/:genre/:dates/", (req, res) => {
         )
           .then((res) => res.json())
           .then((data) => {
-            console.log("ALL DATA ->", data)
             if(data.length === 1){
                 res.json({result : data.results})
             }
@@ -41,6 +40,23 @@ router.get("/selection/:type/:genre/:dates/", (req, res) => {
       } else res.json({ result: "error" });
     });
 });
+
+router.get("/id/:id", (req, res) => {
+    fetch(`https://api.themoviedb.org/3/movie/${req.params.id}/watch/providers?api_key=${apiKey}`)
+    .then((res) => res.json())
+    .then((data) => {
+        if(data.results){
+            if(data.results["US"]){
+                console.log(data.results)
+                res.json({result : data.results["US"].rent})}
+            else {
+            }}
+            else{
+                res.json({error : "No Provider found"})
+                
+        }    
+    })
+})
 
 router.get("/keyword/:word", (req, res) => {
   fetch(
