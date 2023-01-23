@@ -26,6 +26,9 @@ router.get("/selection/:type/:genre/:dates/", (req, res) => {
         )
           .then((res) => res.json())
           .then((data) => {
+            if(!data){
+              res.json({result : "no result"})
+            }
             if(data.length === 1){
                 res.json({result : data.results})
             }
@@ -37,7 +40,9 @@ router.get("/selection/:type/:genre/:dates/", (req, res) => {
             }
 
           });
-      } else res.json({ result: "error" });
+      } else {
+        res.json({ result: "error" });
+      }
     });
 });
 
