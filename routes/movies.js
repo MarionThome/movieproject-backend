@@ -46,14 +46,15 @@ router.get("/selection/:type/:genre/:dates/", (req, res) => {
     });
 });
 
-router.get("/id/:id", (req, res) => {
-    fetch(`https://api.themoviedb.org/3/movie/${req.params.id}/watch/providers?api_key=${apiKey}`)
+router.get("/id/:type/:id", (req, res) => {
+    fetch(`https://api.themoviedb.org/3/${req.params.type}/${req.params.id}/watch/providers?api_key=${apiKey}`)
     .then((res) => res.json())
     .then((data) => {
         if(data.results){
+          console.log(data.results["US"])
             if(data.results["US"]){
-                console.log(data.results)
-                res.json({result : data.results["US"].rent})}
+                
+                res.json({result : data.results["US"].flatrate})}
             else {
             }}
             else{
@@ -73,6 +74,43 @@ router.get("/keyword/:word", (req, res) => {
     });
 });
 
+router.get("/randommovie", (req, res) => {
+        fetch(
+          `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&sort_by=popularity.desc&sort_by=popularity.desc&page=${Math.floor(Math.random() * (500))}`
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            if(!data){
+              res.json({result : "no result"})
+            }
+            else{
+                console.log(data)
+                const randomNumb = Math.floor(Math.random() * (data.results.length))
+                console.log(randomNumb)
+                res.json({result : data.results[randomNumb]})
+            }
+
+          });
+});
+
+router.get("/randomtv", (req, res) => {
+  fetch(
+    `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&sort_by=popularity.desc&sort_by=popularity.desc&page=${Math.floor(Math.random() * (500))}`
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      if(!data){
+        res.json({result : "no result"})
+      }
+      else{
+          console.log(data)
+          const randomNumb = Math.floor(Math.random() * (data.results.length))
+          console.log(randomNumb)
+          res.json({result : data.results[randomNumb]})
+      }
+
+    });
+});
 // Get Movie Provider : https://api.themoviedb.org/3/movie/{MOVIE_ID}/watch/providers?api_key=
 //img path : https://image.tmdb.org/t/p/original/{PATH}
 // img path with width / INFO ->  https://www.themoviedb.org/talk/5aeaaf56c3a3682ddf0010de?language=fr-FR
